@@ -43,7 +43,7 @@ function clickatell_civicrm_uninstall() {
       CRM_SMS_BAO_Provider::del($value['id']);
     }
   }
-  return _clickatell_civix_civicrm_uninstall();
+  return TRUE;
 }
 
 /**
@@ -62,32 +62,4 @@ function clickatell_civicrm_enable() {
     }
   }
   return _clickatell_civix_civicrm_enable();
-}
-
-/**
- * Implementation of hook_civicrm_disable
- */
-function clickatell_civicrm_disable() {
-  $optionID = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_OptionValue','clickatell','id','name');
-  if ($optionID)
-    CRM_Core_BAO_OptionValue::setIsActive($optionID, FALSE);
-
-  $filter    =  array('name' =>  'org.civicrm.sms.clickatell');
-  $Providers =  CRM_SMS_BAO_Provider::getProviders(False, $filter, False);
-  if ($Providers){
-    foreach($Providers as $key => $value){
-      CRM_SMS_BAO_Provider::setIsActive($value['id'], FALSE);
-    }
-  }
-  return _clickatell_civix_civicrm_disable();
-}
-
-/**
- * Implementation of hook_civicrm_managed
- *
- * Generate a list of entities to create/deactivate/delete when this module
- * is installed, disabled, uninstalled.
- */
-function clickatell_civicrm_managed(&$entities) {
-  return _clickatell_civix_civicrm_managed($entities);
 }
